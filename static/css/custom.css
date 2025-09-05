@@ -1,0 +1,54 @@
+:root {
+  /* ธีมธรรมศาสตร์ */
+  --thammasat-yellow: #FFD800;
+  --thammasat-red: #DA291C;
+  --thammasat-darkred: #a1160a;
+
+  /* Override Bootstrap */
+  --bs-primary: var(--thammasat-yellow);
+  --bs-primary-rgb: 255, 216, 0;
+
+  --bs-danger: var(--thammasat-red);
+  --bs-danger-rgb: 218, 41, 28;
+
+  --bs-link-color: var(--thammasat-red);
+  --bs-link-hover-color: var(--thammasat-darkred);
+}
+
+/* ปุ่ม */
+.btn-primary {
+  background-color: var(--thammasat-yellow);
+  border-color: var(--thammasat-yellow);
+  color: #000;
+}
+.btn-primary:hover {
+  background-color: #e6c200;
+  border-color: #e6c200;
+  color: #000;
+}
+
+.btn-danger {
+  background-color: var(--thammasat-red);
+  border-color: var(--thammasat-red);
+}
+.btn-danger:hover {
+  background-color: var(--thammasat-darkred);
+  border-color: var(--thammasat-darkred);
+}
+
+/* Navbar */
+.navbar {
+  background: linear-gradient(90deg, var(--thammasat-yellow), var(--thammasat-red));
+}
+.navbar .navbar-brand, .navbar .nav-link, .navbar .btn {
+  color: #fff !important;
+  font-weight: 600;
+}
+.navbar .btn-outline-primary {
+  color: #fff;
+  border-color: #fff;
+}
+.navbar .btn-outline-primary:hover {
+  background-color: #fff;
+  color: var(--thammasat-red);
+}

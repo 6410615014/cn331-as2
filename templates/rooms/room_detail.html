@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block title %}ตารางจอง {{ room.code }}{% endblock %}
+
+{% block content %}
+
+<!-- Header & CTA -->
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+  <div>
+    <h2 class="fw-bold mb-1 text-dark">ตารางจอง: {{ room.code }}</h2>
+    <p class="text-muted mb-0">{{ room.name }}</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-secondary rounded-pill px-4 shadow-sm" href="{% url 'rooms:room_list' %}">
+      <i class="bi bi-arrow-left me-1"></i> ย้อนกลับ
+    </a>
+    <a class="btn btn-primary rounded-pill px-4 shadow-sm" href="{% url 'rooms:booking_create' %}?room={{ room.pk }}">
+      <i class="bi bi-calendar-plus me-2"></i> จองห้องนี้
+    </a>
+  </div>
+</div>
+
+<!-- Room summary -->
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+  <div class="card-body d-flex flex-wrap align-items-center gap-3">
+    <span class="badge rounded-pill px-3 py-2" style="background:#fff3cd;border:1px solid #ffe69c;color:#000;">
+      <i class="bi bi-people me-1"></i> ความจุ {{ room.capacity }} คน
+    </span>
+    <span class="badge rounded-pill px-3 py-2" style="background:#f8f9fa;border:1px solid #e9ecef;color:#000;">
+      <i class="bi bi-door-open me-1"></i> รหัสห้อง {{ room.code }}
+    </span>
+    <span class="badge rounded-pill px-3 py-2" style="background:#f8f9fa;border:1px solid #e9ecef;color:#000;">
+      <i class="bi bi-info-circle me-1"></i> เปิดให้จอง
+    </span>
+  </div>
+</div>
+
+<!-- Upcoming bookings list -->
+<div class="card border-0 shadow-sm rounded-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="mb-0 fw-semibold text-dark"><i class="bi bi-clock-history me-2"></i>การจองในอนาคต</h5>
+      <span class="text-muted small">อัปเดตล่าสุด: {{ now|date:"d/m/Y H:i" }}</span>
+    </div>
+
+    {% if bookings %}
+      <ul class="list-unstyled mb-0">
+        {% for b in bookings %}
+          <li class="booking-item p-3 rounded-3 mb-2 border">
+            <div class="d-flex justify-content-between flex-wrap gap-2">
+              <div>
+                <div class="fw-bold mb-1">{{ b.title }}</div>
+                <div class="text-muted small">
+                  <i class="bi bi-person me-1"></i>โดย {{ b.user.username }}
+                </div>
+              </div>
+              <div class="text-end">
+                <div class="badge rounded-pill px-3 py-2" style="background:#fff; border:1px solid #e9ecef; color:#000;">
+                  <i class="bi bi-calendar-event me-1"></i>{{ b.start|date:"d/m/Y H:i" }} – {{ b.end|date:"d/m/Y H:i" }}
+                </div>
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <div class="text-center text-muted py-5">
+        <div class="mb-2"><i class="bi bi-calendar-x" style="font-size:2rem;"></i></div>
+        <p class="mb-3">ยังไม่มีการจองในอนาคต</p>
+        <a class="btn btn-outline-primary rounded-pill px-4" href="{% url 'rooms:booking_create' %}?room={{ room.pk }}">
+          <i class="bi bi-plus-circle me-1"></i> จองรอบแรกเลย
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+/* ไมโครอินเตอร์แอคชันให้สบายตา */
+.booking-item {
+  background: #fff;
+  transition: all .2s ease-in-out;
+}
+.booking-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.06);
+  border-color: #f1f3f5;
+}
+</style>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}การจองของฉัน{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="fw-bold text-dark mb-0">การจองของฉัน</h2>
+  <a href="{% url 'rooms:room_list' %}" class="btn btn-outline-secondary rounded-pill px-4">
+    <i class="bi bi-arrow-left me-1"></i> ย้อนกลับ
+  </a>
+</div>
+
+{% if bookings %}
+  <div class="list-group border-0">
+    {% for b in bookings %}
+      <div class="list-group-item border-0 shadow-sm rounded-4 mb-3 booking-card">
+        <div class="d-flex justify-content-between flex-wrap gap-2">
+          <div>
+            <div class="fw-bold text-primary mb-1">{{ b.room.code }} - {{ b.title }}</div>
+            <div class="text-muted small">
+              <i class="bi bi-calendar-event me-1"></i>
+              {{ b.start|date:"d/m/Y H:i" }} – {{ b.end|date:"d/m/Y H:i" }}
+            </div>
+            <div class="small mt-1">
+              <span class="badge rounded-pill px-3 py-2 {% if b.status == 'active' %}bg-success-subtle text-success{% else %}bg-secondary-subtle text-muted{% endif %}">
+                {{ b.get_status_display }}
+              </span>
+            </div>
+          </div>
+          {% if b.status == 'active' %}
+            <div class="text-end">
+              <a href="{% url 'rooms:booking_cancel' b.pk %}" class="btn btn-outline-danger rounded-pill px-3 py-1">
+                <i class="bi bi-x-circle me-1"></i> ยกเลิก
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="text-center text-muted py-5">
+    <div class="mb-2"><i class="bi bi-journal-x" style="font-size:2rem;"></i></div>
+    <p class="mb-3">ยังไม่มีการจอง</p>
+    <a class="btn btn-primary rounded-pill px-4 shadow-sm" href="{% url 'rooms:booking_create' %}">
+      <i class="bi bi-plus-circle me-1"></i> จองห้องครั้งแรกเลย
+    </a>
+  </div>
+{% endif %}
+
+<style>
+.booking-card {
+  transition: all 0.2s ease-in-out;
+}
+.booking-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0,0,0,.08);
+}
+</style>
+{% endblock %}

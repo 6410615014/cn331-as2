@@ -1,0 +1,94 @@
+{% load static %}
+<!doctype html>
+<html lang="th">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}จองห้องเรียน{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <link href="{% static 'css/custom.css' %}" rel="stylesheet">
+
+  <!-- Flatpickr -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/th.js"></script>
+</head>
+
+<body class="bg-light">
+  <nav class="navbar navbar-expand-lg bg-white shadow-sm mb-4">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'rooms:room_list' %}">Classroom Booking</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div id="mainNav" class="collapse navbar-collapse">
+        <div class="ms-auto d-flex gap-2">
+          {% if user.is_authenticated %}
+            <a class="btn btn-outline-primary" href="{% url 'rooms:my_bookings' %}">การจองของฉัน</a>
+            {% if user.is_staff %}
+              <a class="btn btn-outline-secondary" href="{% url 'rooms:manage_rooms' %}">จัดการห้อง</a>
+            {% endif %}
+            <a class="btn btn-danger" href="{% url 'logout' %}">ออกจากระบบ</a>
+          {% else %}
+            <a class="btn btn-primary" href="{% url 'login' %}">เข้าสู่ระบบ</a>
+            <a class="btn btn-outline-primary" href="{% url 'register' %}">สมัครสมาชิก</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{% autoescape off %}{{ message }}{% endautoescape %}</div>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Bootstrap JS (bundle) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // ตั้งค่าทั่วไป
+      const commonOpts = {
+        locale: 'th',            
+        enableTime: true,       
+        time_24hr: true,        
+        dateFormat: 'Y-m-d H:i',
+        minuteIncrement: 15,
+        minDate: 'today'         
+      };
+
+      const startEl = document.querySelector('#id_start');
+      const endEl   = document.querySelector('#id_end');
+
+      if (startEl && endEl) {
+        const endPicker = flatpickr(endEl, { ...commonOpts });
+
+        const startPicker = flatpickr(startEl, {
+          ...commonOpts,
+          onChange: function (selDates) {
+            if (selDates.length) {
+              endPicker.set('minDate', selDates[0]);
+
+              if (!endEl.value) {
+                const plus1h = new Date(selDates[0].getTime() + 60 * 60 * 1000);
+                endPicker.setDate(plus1h, true); 
+              }
+            }
+          }
+        });
+      }
+    });
+  </script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}จองห้อง{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="fw-bold text-dark mb-0">จองห้อง</h2>
+  <a href="{% url 'rooms:room_list' %}" class="btn btn-outline-secondary rounded-pill px-4">
+    <i class="bi bi-arrow-left me-1"></i> ย้อนกลับ
+  </a>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4">
+  <div class="card-body p-4">
+    <form method="post">
+      {% csrf_token %}
+      {{ form.non_field_errors }}
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold"><i class="bi bi-door-open me-1"></i> ห้อง</label>
+        {{ form.room }}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label fw-semibold"><i class="bi bi-book me-1"></i> หัวข้อ/วิชา</label>
+        {{ form.title }}
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-semibold"><i class="bi bi-clock me-1"></i> เริ่ม</label>
+          {{ form.start }}
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-semibold"><i class="bi bi-clock-history me-1"></i> สิ้นสุด</label>
+          {{ form.end }}
+        </div>
+      </div>
+
+      <div class="d-grid">
+        <button class="btn btn-primary rounded-pill py-2 px-4 shadow-sm">
+          <i class="bi bi-check-circle me-1"></i> บันทึกการจอง
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+/* ทำให้ input ดูมินิมอลขึ้น */
+form input, form select, form textarea {
+  border-radius: 0.75rem !important;
+  border: 1px solid #dee2e6 !important;
+  padding: 0.6rem 0.9rem !important;
+  font-size: 0.95rem;
+}
+
+form input:focus, form select:focus {
+  border-color: var(--thammasat-red) !important;
+  box-shadow: 0 0 0 0.2rem rgba(218, 41, 28, 0.25) !important;
+}
+</style>
+{% endblock %}
