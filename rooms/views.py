@@ -64,7 +64,6 @@ def booking_cancel(request, pk):
         messages.success(request, 'ยกเลิกการจองเรียบร้อย')
     return redirect('rooms:my_bookings')
 
-# หน้าจอจัดการห้องอย่างง่ายสำหรับแอดมิน (เสริมคะแนนพิเศษ)
 def is_staff(user): return user.is_staff
 
 @user_passes_test(is_staff)
