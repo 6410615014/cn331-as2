@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Booking
+from django.core.exceptions import ValidationError
+from datetime import timedelta
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -43,5 +45,18 @@ class BookingForm(forms.ModelForm):
                 'placeholder': 'YYYY-MM-DD HH:MM',
             }),
         }
+
+    def clean(self):
+        cleaned_data = super().clean()
+        start = cleaned_data.get("start")
+        end = cleaned_data.get("end")
+
+        if start and end:
+            if end <= start:
+                raise ValidationError("เวลา 'สิ้นสุด' ต้องหลังเวลา 'เริ่ม'")
+            if (end - start) > timedelta(hours=1):
+                raise ValidationError("การจองต้องไม่เกิน 1 ชั่วโมง")
+
+        return cleaned_data
 
 
