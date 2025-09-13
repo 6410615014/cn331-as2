@@ -3,9 +3,11 @@
 {% block content %}
 <div class="d-flex justify-content-between align-items-center mb-4">
   <h2 class="fw-bold text-dark">ห้องเรียนที่เปิดให้จอง</h2>
+  {% if not request.user.is_staff %}
   <a class="btn btn-primary shadow-sm rounded-pill px-4" href="{% url 'rooms:booking_create' %}">
     <i class="bi bi-plus-circle me-1"></i> จองห้อง
   </a>
+  {% endif %}
 </div>
 
 <div class="row g-4">

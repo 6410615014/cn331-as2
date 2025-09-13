@@ -29,7 +29,11 @@
           {% for r in rooms %}
             <tr class="room-row">
               <td class="fw-semibold text-primary">{{ r.code }}</td>
-              <td>{{ r.name }}</td>
+              <td>
+                <a href="{% url 'rooms:manage_room_detail' r.pk %}" class="text-decoration-none">
+                  {{ r.name }}
+                </a>
+              </td>
               <td>{{ r.capacity }}</td>
               <td>
                 {% if r.is_active %}
@@ -41,7 +45,7 @@
               <td class="text-center">
                 <a class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1"
                    href="{% url 'rooms:toggle_room_active' r.pk %}">
-                   สลับเปิด/ปิด
+                   เปิด/ปิด
                 </a>
               </td>
             </tr>
@@ -61,7 +65,7 @@
   transition: all 0.2s ease-in-out;
 }
 .room-row:hover {
-  background-color: #fffbea; /* เหลืองอ่อนแบบ TU */
+  background-color: #fffbea; 
 }
 </style>
 {% endblock %}

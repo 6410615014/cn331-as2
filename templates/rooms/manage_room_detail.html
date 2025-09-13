@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}จัดการห้อง (แอดมิน): {{ room.code }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="fw-bold mb-1">จัดการห้อง: {{ room.code }}</h2>
+    <p class="text-muted mb-0">{{ room.name }} • ความจุ {{ room.capacity }} คน</p>
+  </div>
+  <div class="d-flex gap-2">
+    <a class="btn btn-outline-secondary rounded-pill px-4" href="{% url 'rooms:manage_rooms' %}">
+      <i class="bi bi-arrow-left me-1"></i> ย้อนกลับ
+    </a>
+  </div>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="mb-0 fw-semibold"><i class="bi bi-calendar-check me-2"></i> รายการจอง (ปัจจุบัน/อนาคต)</h5>
+      <span class="text-muted small">อัปเดต: {{ now|default:None|date:"d/m/Y H:i" }}</span>
+    </div>
+
+    {% if bookings %}
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>หัวข้อ</th>
+              <th>ผู้จอง</th>
+              <th>ช่วงเวลา</th>
+              <th>สถานะ</th>
+              <th class="text-center">การจัดการ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for b in bookings %}
+            <tr>
+              <td class="fw-semibold">{{ b.title }}</td>
+              <td>{{ b.user.username }}</td>
+              <td>{{ b.start|date:"d/m/Y H:i" }} – {{ b.end|date:"d/m/Y H:i" }}</td>
+              <td>
+                {% if b.status == 'active' %}
+                  <span class="badge bg-success-subtle text-success rounded-pill px-3 py-2">ใช้งาน</span>
+                {% elif b.status == 'cancelled' %}
+                  <span class="badge bg-danger-subtle text-danger rounded-pill px-3 py-2">ยกเลิก</span>
+                {% else %}
+                  <span class="badge bg-secondary rounded-pill px-3 py-2">{{ b.status }}</span>
+                {% endif %}
+              </td>
+              <td class="text-center">
+                <a class="btn btn-sm btn-outline-primary rounded-pill px-3 me-1"
+                   href="{% url 'rooms:admin_booking_edit' b.pk %}">
+                   แก้ไขเวลา
+                </a>
+
+                <form method="post" action="{% url 'rooms:admin_booking_cancel' b.pk %}" class="d-inline"
+                      onsubmit="return confirm('ยืนยันยกเลิกการจองนี้?');">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3"
+                          {% if b.status == 'cancelled' %}disabled{% endif %}>
+                    ยกเลิก
+                  </button>
+                </form>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <div class="text-center text-muted py-5">
+        <div class="mb-2"><i class="bi bi-calendar-x" style="font-size:2rem;"></i></div>
+        <p class="mb-0">ยังไม่มีการจองสำหรับห้องนี้</p>
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

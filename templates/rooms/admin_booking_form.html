@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}แก้ไขการจอง: {{ booking.title }}{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h2 class="fw-bold mb-0"><i class="bi bi-pencil-square me-2"></i> แก้ไขการจอง</h2>
+  <a class="btn btn-outline-secondary rounded-pill px-4"
+     href="{% url 'rooms:manage_room_detail' booking.room_id %}">
+    <i class="bi bi-arrow-left me-1"></i> กลับไปหน้าห้อง
+  </a>
+</div>
+
+<div class="card border-0 shadow-sm rounded-4">
+  <div class="card-body">
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+        <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+      {% endif %}
+
+      <div class="mb-3">
+        <label class="form-label">หัวข้อ</label>
+        {{ form.title }}
+        {{ form.title.errors }}
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">เริ่ม</label>
+          {{ form.start }}
+          {{ form.start.errors }}
+          <div class="form-text">จองได้ไม่เกิน 1 ชั่วโมง</div>
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">สิ้นสุด</label>
+          {{ form.end }}
+          {{ form.end.errors }}
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">สถานะ</label>
+        {{ form.status }}
+        {{ form.status.errors }}
+      </div>
+
+      <button type="submit" class="btn btn-primary rounded-pill px-4">บันทึกการเปลี่ยนแปลง</button>
+      <a href="{% url 'rooms:manage_room_detail' booking.room_id %}" class="btn btn-light rounded-pill px-4 ms-2">ยกเลิก</a>
+    </form>
+  </div>
+</div>
+
+<script>
+</script>
+{% endblock %}
