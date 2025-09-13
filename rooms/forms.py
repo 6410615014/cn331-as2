@@ -59,4 +59,25 @@ class BookingForm(forms.ModelForm):
 
         return cleaned_data
 
+class AdminBookingUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Booking
+        fields = ('title', 'start', 'end', 'status')  
+        widgets = {
+            'title': forms.TextInput(attrs={'class': 'form-control'}),
+            'start': forms.DateTimeInput(attrs={'class': 'form-control flatpickr-dt', 'autocomplete': 'off'}),
+            'end': forms.DateTimeInput(attrs={'class': 'form-control flatpickr-dt', 'autocomplete': 'off'}),
+            'status': forms.Select(attrs={'class': 'form-select'}),
+        }
+
+    def clean(self):
+        cleaned = super().clean()
+        start, end = cleaned.get('start'), cleaned.get('end')
+        if start and end:
+            if end <= start:
+                raise ValidationError("เวลา 'สิ้นสุด' ต้องหลังเวลา 'เริ่ม'")
+            if (end - start) > timedelta(hours=1):
+                raise ValidationError("การจองต้องไม่เกิน 1 ชั่วโมง")
+        return cleaned
+
 
