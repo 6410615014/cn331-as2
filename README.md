@@ -25,6 +25,9 @@
 - **🧰 Django Admin** — จัดการข้อมูลเชิงลึก (เพิ่มผู้ใช้/เพิ่มห้อง/แก้รายละเอียด)
 
 ---
+## 🎥 Demo Video
+
+[![Watch Demo – Google Drive](https://img.shields.io/badge/Watch%20Demo-Google%20Drive-4285F4?logo=google-drive&logoColor=white)](https://drive.google.com/file/d/1mbSrIfGb3TuS7DF-pn69KE0HgwFFPNm_/view?usp=sharing)
 
 ## 📌 System Flow (Miro)
 
