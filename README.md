@@ -4,6 +4,16 @@
 - กนกวรรณ คุ้มโชคชนะ 6410615014
 - รัชพล เยี่ยมกระโทก 6410455015
 
+## 🌐 Deploy & Repos
+- **Deploy URL**: https://cn331-as2-1-v8fe.onrender.com/
+- **Deploy Branch**: https://github.com/6410615014/cn331-as2/tree/deploy
+
+## 🎥 Demo Video
+### ▶️ ก่อน Deploy (Local Demo)
+[![Watch – Local Demo](https://img.shields.io/badge/Watch%20Demo-Google%20Drive-4285F4?logo=google-drive&logoColor=white)](https://drive.google.com/file/d/1mbSrIfGb3TuS7DF-pn69KE0HgwFFPNm_/view?usp=sharing)
+### ✅ หลัง Deploy (Render Demo)
+[![Watch – Render Demo](https://img.shields.io/badge/Watch%20Demo-Google%20Drive-4285F4?logo=google-drive&logoColor=white)](https://drive.google.com/file/d/1qUq48uF3RE6-Ng6ck4cvqSOD5mRGI5vs/view?usp=sharing)
+
 ## 🎭 บทบาท (Roles)
 - **ผู้ใช้ทั่วไป (User)** — ดูห้องที่เปิดให้จอง • จองห้อง ≤ 1 ชั่วโมง/ครั้ง
 - **ผู้ดูแล (Admin)** — เปิด/ปิดห้อง • ดูรายการจองของแต่ละห้อง • แก้ไขเวลา/ยกเลิกการจองแทนผู้ใช้
@@ -25,9 +35,6 @@
 - **🧰 Django Admin** — จัดการข้อมูลเชิงลึก (เพิ่มผู้ใช้/เพิ่มห้อง/แก้รายละเอียด)
 
 ---
-## 🎥 Demo Video
-
-[![Watch Demo – Google Drive](https://img.shields.io/badge/Watch%20Demo-Google%20Drive-4285F4?logo=google-drive&logoColor=white)](https://drive.google.com/file/d/1mbSrIfGb3TuS7DF-pn69KE0HgwFFPNm_/view?usp=sharing)
 
 ## 📌 System Flow (Miro)
 
